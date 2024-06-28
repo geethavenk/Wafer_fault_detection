@@ -26,6 +26,31 @@ class DataIngestionConfig:
     test_data_path = os.path.join(processed_data_folder, 'test.csv')
 
 class DataIngestion:
+    """
+    A class to handle data ingestion operations including loading, cleaning and splitting data.
+
+    Methods:
+    --------
+    __init__():
+        Initializes DataIngestion class with configuration and logger.
+
+    load_data(path_to_folder, file_format = '.csv'):
+        Loads all files of a given format from the specified folder into a single dataframe
+
+    get_cols_with_zero_std(df):
+        Identifies columns with zero standard deviation.    
+
+    get_cols_with_missing_values(df, missing_threshold=0.7):
+        Identifies columns with missing values exceeding the given threshold.   
+
+    drop_columns(df):
+        Drops columns with zero standard deviation and missing values exceeding the given threshold.
+
+    initiate_data_ingestion(path_to_files, file_format='.csv'):
+        Initiates data ingestion including loading, cleaning, splitting and saving the data.         
+
+    """
+
     def __init__(self):
         """
         Initializes the DataIngestion class with the configuration for data paths.
@@ -35,7 +60,7 @@ class DataIngestion:
 
     def load_data(self, path_to_folder, file_format = '.csv'):
         """
-        Loads all files of a given format from the specified folder into a single dataframe
+        Loads all files of a given format from the specified folder into a single dataframe.
 
         Args:
         path_to_folder: str
@@ -184,6 +209,24 @@ class DataIngestion:
             raise e
         
     def initiate_data_ingestion(self, path_to_files, file_format='.csv'):
+        """
+        Initiates data ingestion including loading, cleaning, splitting and saving the data.
+
+        Args:
+        path_to_files: str
+            Path to the folder contining data files.
+        file_format: str, optional (default='.csv')
+            File format to filter files.
+
+        Returns:
+        tuple
+            A tuple containing paths to the train and test data files.
+
+        Raises:
+        Exception
+            If any error occurs during data ingestion.        
+        """
+        
         try:
             self.logger.log('Data ingestion initialized...', 'INFO')
 
