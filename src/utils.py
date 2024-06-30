@@ -2,6 +2,8 @@ import pickle
 import pandas as pd
 from src.logger import Logger
 import os, sys
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import roc_auc_score
 
 
 logger = Logger()
@@ -64,4 +66,58 @@ def load_obj(file_path):
     except Exception as e:
         logger.log('Error occurred while loading the object', 'ERROR')
         raise e    
+    
+def evaluate_model(X_train, Y_train, X_test, Y_test, models): 
+    """
+    Evaluates multiple models using AUC-ROC curve.
+
+    Args:
+    X_train: pd.DataFrame
+        Training features.
+    Y_train: pd.Series
+        Training target.
+    X_test: pd.DataFrame
+        Test features.
+    Y_test: pd.Series
+        Test target.
+    models: dict
+        Dictionary with model names as keys and model instances as values.
+
+    Returns:
+    dict
+        A dictionary with model names as keys and their corresponding AUC-ROC score as values.
+
+    Raises:
+    Exception
+        If any error occurs during evaluation process.                        
+    """
+    try:
+        logger.log('Starting model evaluation...')
+
+        # replace target variables for binary classification
+        Y_train = Y_train.replace({-1:0, 1:1})
+        Y_test = Y_test.replace({-1:0, 1:1})
+        model_report = {}
+
+        for name, model in models.items():
+            logger.log(f'Training model: {name}')
+
+            # train the model
+            model.fit(X_train, Y_train)
+
+            # predict probabilites
+            Y_pred_proba = model.predict_proba(X_test)[:, 1]
+
+            # evaluate model
+            auc_score = roc_auc_score(Y_test, Y_pred_proba)
+            model_report[name] = auc_score
+
+            logger.log(f'Model: {name}, AUC-ROC score: {auc_score}')
+        
+        logger.log('Model evaluation completed successfully.')
+        return model_report
+
+    except Exception as e:
+        logger.log('Error occurred during model evaluation.')
+        raise e       
 
