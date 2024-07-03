@@ -2,6 +2,7 @@ import pickle
 import pandas as pd
 from src.logger import Logger
 import os, sys
+import streamlit as st
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import roc_auc_score
 
@@ -121,3 +122,13 @@ def evaluate_model(X_train, Y_train, X_test, Y_test, models):
         logger.log('Error occurred during model evaluation.')
         raise e       
 
+def about_me():
+        st.title("About the Creator")
+        c1, c2 = st.columns([1,1])
+        c1.markdown("""Hey! My name is **Geetha Venkatesh**, a passionate data scientist transitioning from academia to industry.
+                    This app is for detecting faults in the wafers.
+                    If you have any questions or further suggestions, feel free to 
+                    contact me at geetha.r.v@gmail.com""")
+        c1.markdown("If you are interested :")
+        c1.markdown("Github : https://github.com/geethavenk")
+        c1.markdown("LinkedIn : https://www.linkedin.com/in/dr-geetha-venkatesh/")
