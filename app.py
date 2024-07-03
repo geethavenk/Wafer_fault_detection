@@ -4,8 +4,10 @@ import pandas as pd
 from src.pipelines.prediction_pipeline import PredictionPipeline
 import io
 
+# side bar with title
 st.sidebar.title('Wafer Fault Detection')
 
+# side bar about the author
 if st.sidebar.button('About creator'):
     utils.about_me()
 
