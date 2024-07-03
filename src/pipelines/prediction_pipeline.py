@@ -20,10 +20,11 @@ class PredictionPipelineConfig:
             Path to the predictions.
 
     """
-    preprocessor_path = os.path.join('../artifacts', 'preprocessor.pkl')
-    model_path = os.path.join('../artifacts', 'model.pkl')
-    features_path = os.path.join('../artifacts', 'features.pkl')
-    predictions_path = os.path.join('../predictions', 'predictions.csv')
+    preprocessor_path = os.path.join('artifacts', 'preprocessor.pkl')
+    model_path = os.path.join('artifacts', 'model.pkl')
+    features_path = os.path.join('artifacts', 'features.pkl')
+    predictions_path = os.path.join('predictions', 'predictions.csv')
+
 
 class PredictionPipeline:
     
@@ -48,6 +49,7 @@ class PredictionPipeline:
         """
 
         try:
+
             # load preprocessor
             self.logger.log('Loading preprocessor...')
             preprocessor = load_obj(self.prediction_config.preprocessor_path)
